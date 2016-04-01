@@ -234,3 +234,6 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+/NDoc/libraries/CompuMaster.IO.dll
+/NDoc/libraries/CompuMaster.IO.pdb
+/NDoc/libraries/CompuMaster.IO.xml
