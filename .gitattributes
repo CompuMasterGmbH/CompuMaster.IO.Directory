@@ -1,2 +1,4 @@
 CompuMaster.IO.Directory/_CreateNewNuGetPackage/* linguist-vendored
-**.cmd  linguist-vendored
+NDoc/* linguist-vendored
+*.cmd  linguist-vendored
+*.ps1  linguist-vendored
