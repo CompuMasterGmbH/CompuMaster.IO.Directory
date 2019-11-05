@@ -1,10 +1,12 @@
 language: csharp
 solution: CompuMaster.IO.Directory.sln
-mono:
-  - latest
+
+before_install:
+  - nuget install NUnit.Runners -Version 3.10.0 -OutputDirectory testrunner
+
 install:
   - nuget restore CompuMaster.IO.Directory.sln
-  - nuget install NUnit.Runners -Version 3.4.1 -OutputDirectory testrunner
+
 script:
-  - xbuild /p:Configuration=Release CompuMaster.IO.Directory.sln
-  - mono ./testrunner/NUnit.ConsoleRunner.3.4.1/tools/nunit3-console.exe ./CompuMaster.Test.IO.Directory/bin/CompuMaster.Test.IO.Directory.dll
+  - msbuild /p:Configuration=Release /p:Platform="Any CPU" /p:PostBuildEvent="" CompuMaster.IO.Directory.sln
+  - mono ./testrunner/NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe ./CompuMaster.Test.IO.Directory/bin/TravisCI/CompuMaster.Test.IO.Directory.dll
