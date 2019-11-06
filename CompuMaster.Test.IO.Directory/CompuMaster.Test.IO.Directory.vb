@@ -2,12 +2,31 @@ Imports NUnit.Framework
 
 Namespace CompuMaster.Tests.IO
 
+    <SetUpFixture()> Public Class TestSetup
+
+        <NUnit.Framework.OneTimeSetUp> Public Sub InitialSetupForTests()
+            System.Console.Write("TestData Directory=" & GlobalTestSetup.PathToTestFiles("testdata"))
+            If System.IO.Directory.Exists(GlobalTestSetup.PathToTestFiles("testdata")) = False Then
+                System.Console.WriteLine(": NOT FOUND => FAILURE")
+            Else
+                System.Console.WriteLine(": FOUND => SUCCESS")
+            End If
+            For Each item As String In System.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"))
+                System.Console.WriteLine("Dir:  " & item)
+            Next
+            For Each item As String In System.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"))
+                System.Console.WriteLine("File: " & item)
+            Next
+        End Sub
+
+    End Class
+
     <TestFixture()> Public Class Directory
 
-        <Test()> Sub GetFiles()
-            Assert.True(CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "*.Asp", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows)(0).EndsWith(".asp"))
-            Assert.True(CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "*.Asp", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length = 0)
-        End Sub
+            <Test()> Sub GetFiles()
+                Assert.True(CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "*.Asp", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows)(0).EndsWith(".asp"))
+                Assert.True(CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "*.Asp", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length = 0)
+            End Sub
 
     End Class
 
