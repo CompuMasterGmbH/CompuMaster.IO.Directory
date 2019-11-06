@@ -33,6 +33,39 @@ Namespace CompuMaster.Tests.IO
     <TestFixture()> Public Class Directory
 
             <Test()> Sub GetFiles()
+            System.Console.WriteLine("TestData Directory=" & GlobalTestSetup.PathToTestFiles("testdata"))
+            System.Console.WriteLine()
+            System.Console.WriteLine("WinMode: GetFiles search pattern: *.*")
+            For Each item As String In CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "*.*", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows)
+                System.Console.WriteLine("File: " & item)
+            Next
+            System.Console.WriteLine()
+            System.Console.WriteLine("LinuxMode: GetFiles search pattern: *.*")
+            For Each item As String In CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "*.*", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix)
+                System.Console.WriteLine("File: " & item)
+            Next
+            System.Console.WriteLine()
+            System.Console.WriteLine("WinMode: GetFiles search pattern: *")
+            For Each item As String In CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "*", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows)
+                System.Console.WriteLine("File: " & item)
+            Next
+            System.Console.WriteLine()
+            System.Console.WriteLine("LinuxMode: GetFiles search pattern: *")
+            For Each item As String In CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "*", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix)
+                System.Console.WriteLine("File: " & item)
+            Next
+            System.Console.WriteLine()
+            System.Console.WriteLine("WinMode: GetFiles search pattern: *.Asp")
+            For Each item As String In CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "*.Asp", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows)
+                System.Console.WriteLine("File: " & item)
+            Next
+            System.Console.WriteLine()
+            System.Console.WriteLine("LinuxMode: GetFiles search pattern: *.Asp")
+            For Each item As String In CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "*.Asp", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix)
+                System.Console.WriteLine("File: " & item)
+            Next
+            System.Console.WriteLine()
+
             Assert.AreEqual(1, CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "*.Asp", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #1")
             Assert.AreEqual(1, CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "*.asp", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #2")
             Assert.AreEqual(0, CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "*.Asp", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #3")
