@@ -1,3 +1,6 @@
+Option Explicit On
+Option Strict On
+
 Imports NUnit.Framework
 
 Namespace CompuMaster.Tests.IO
@@ -11,14 +14,20 @@ Namespace CompuMaster.Tests.IO
             Else
                 System.Console.WriteLine(": FOUND => SUCCESS")
             End If
-            For Each item As String In System.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"))
+            LogDirectoryContent(GlobalTestSetup.PathToTestFiles("testdata"), 0)
+        End Sub
+
+        Private Sub LogDirectoryContent(path As String, indentLevel As Integer)
+            For Each item As String In System.IO.Directory.GetDirectories(path)
+                System.Console.Write(Space(4 * indentLevel))
                 System.Console.WriteLine("Dir:  " & item)
+                LogDirectoryContent(item, indentLevel + 1)
             Next
-            For Each item As String In System.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"))
+            For Each item As String In System.IO.Directory.GetFiles(path)
+                System.Console.Write(Space(4 * indentLevel))
                 System.Console.WriteLine("File: " & item)
             Next
         End Sub
-
     End Class
 
     <TestFixture()> Public Class Directory
