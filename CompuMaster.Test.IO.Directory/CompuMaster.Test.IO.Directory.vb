@@ -38,11 +38,11 @@ Namespace CompuMaster.Tests.IO
             System.Console.WriteLine("TestData Directory=" & path)
             System.Console.WriteLine("SearchPattern=" & searchPattern)
             System.Console.WriteLine()
-            System.Console.WriteLine("Native results of Sys.IO.Dir.GetFiles:")
+            Dim NativeResultsCount As Integer = System.IO.Directory.GetFiles(path, searchPattern).Length
+            System.Console.WriteLine("Native results of Sys.IO.Dir.GetFiles:" & NativeResultsCount)
             For Each item As String In System.IO.Directory.GetFiles(path, searchPattern)
                 System.Console.WriteLine("File: " & item)
             Next
-            Dim NativeResultsCount As Integer = System.IO.Directory.GetFiles(path, searchPattern).Length
             Assert.Greater(NativeResultsCount, 0, "Native results count")
             System.Console.WriteLine()
             System.Console.WriteLine("WinMode: Results after applied filter")
@@ -56,6 +56,12 @@ Namespace CompuMaster.Tests.IO
                 System.Console.WriteLine("File: " & item)
             Next
             Assert.AreEqual(0, CompuMaster.IO.FilterUtils.ApplyFileFilter(System.IO.Directory.GetFiles(path, searchPattern), searchPattern, CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Applied filter: Unix")
+
+            searchPattern = "*.asp"
+            System.Console.WriteLine()
+            System.Console.WriteLine("SearchPattern=" & searchPattern)
+            Assert.AreEqual(1, CompuMaster.IO.FilterUtils.ApplyFileFilter(System.IO.Directory.GetFiles(path, searchPattern), searchPattern, CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Applied filter: Unix")
+            System.Console.WriteLine()
         End Sub
 
         <Test()> Sub GetFiles()
@@ -119,6 +125,118 @@ Namespace CompuMaster.Tests.IO
             Assert.AreEqual(1, CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata\subdir"), "*.Aspx", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #21")
             Assert.AreEqual(1, CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata\subdir"), "*.aspx", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #22")
             Assert.AreEqual(2, CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata\subdir"), "*.aspx", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #23")
+
+            Assert.AreEqual(1, CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "*.Asp", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #31w")
+            Assert.AreEqual(0, CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "*.Asp", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #31u")
+            Assert.AreEqual(1, CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "*.asp", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #32w")
+            Assert.AreEqual(1, CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "*.asp", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #32u")
+            Assert.AreEqual(5, CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "*.aspx", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #33w")
+            Assert.AreEqual(4, CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "*.aspx", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #33u")
+            Assert.AreEqual(5, CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "*.Aspx", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #34w")
+            Assert.AreEqual(1, CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "*.Aspx", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #34u")
+
+            Assert.AreEqual(7, CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "*", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #31w")
+            Assert.AreEqual(7, CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "*", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #31u")
+            Assert.AreEqual(0, CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "*.", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #32w")
+            Assert.AreEqual(0, CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "*.", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #32u")
+
+            Assert.AreEqual(1, CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "xyz*", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #41w")
+            Assert.AreEqual(1, CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "xyz*", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #41u")
+            Assert.AreEqual(1, CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "readme", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #42w")
+            Assert.AreEqual(1, CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "readme", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #42u")
+            Assert.AreEqual(1, CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "ReadMe", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #43w")
+            Assert.AreEqual(0, CompuMaster.IO.Directory.GetFiles(GlobalTestSetup.PathToTestFiles("testdata"), "ReadMe", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #43u")
+        End Sub
+
+        <Test()> Sub GetDirectories()
+            System.Console.WriteLine("TestData Directory=" & GlobalTestSetup.PathToTestFiles("testdata"))
+            System.Console.WriteLine()
+            System.Console.WriteLine("WinMode: GetDirectories search pattern: *.*")
+            For Each item As String In CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "*.*", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows)
+                System.Console.WriteLine("Dir:  " & item)
+            Next
+            System.Console.WriteLine()
+            System.Console.WriteLine("LinuxMode: GetDirectories search pattern: *.*")
+            For Each item As String In CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "*.*", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix)
+                System.Console.WriteLine("Dir:  " & item)
+            Next
+            System.Console.WriteLine()
+            System.Console.WriteLine("WinMode: GetFiGetDirectoriesles search pattern: *")
+            For Each item As String In CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "*", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows)
+                System.Console.WriteLine("Dir: " & item)
+            Next
+            System.Console.WriteLine()
+            System.Console.WriteLine("LinuxMode: GetDirectories search pattern: *")
+            For Each item As String In CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "*", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix)
+                System.Console.WriteLine("Dir:  " & item)
+            Next
+            System.Console.WriteLine()
+            System.Console.WriteLine("WinMode: GetDirectories search pattern: *.Asp")
+            For Each item As String In CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "*.Asp", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows)
+                System.Console.WriteLine("Dir:  " & item)
+            Next
+            System.Console.WriteLine()
+            System.Console.WriteLine("LinuxMode: GetDirectories search pattern: *.Asp")
+            For Each item As String In CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "*.Asp", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix)
+                System.Console.WriteLine("Dir:  " & item)
+            Next
+            System.Console.WriteLine()
+            System.Console.WriteLine("WinMode: GetDirectories search pattern: *.asp")
+            For Each item As String In CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "*.asp", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows)
+                System.Console.WriteLine("Dir:  " & item)
+            Next
+            System.Console.WriteLine()
+            System.Console.WriteLine("LinuxMode: GetDirectories search pattern: *.asp")
+            For Each item As String In CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "*.asp", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix)
+                System.Console.WriteLine("Dir:  " & item)
+            Next
+            System.Console.WriteLine()
+            System.Console.WriteLine("WinMode: GetDirectories search pattern: sub*")
+            For Each item As String In CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "sub*", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows)
+                System.Console.WriteLine("Dir:  " & item)
+            Next
+            System.Console.WriteLine()
+            System.Console.WriteLine("LinuxMode: GetDirectories search pattern: sub*")
+            For Each item As String In CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "sub*", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix)
+                System.Console.WriteLine("Dir:  " & item)
+            Next
+            System.Console.WriteLine()
+            System.Console.WriteLine("WinMode: GetDirectories search pattern: Sub*")
+            For Each item As String In CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "Sub*", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows)
+                System.Console.WriteLine("Dir:  " & item)
+            Next
+            System.Console.WriteLine()
+            System.Console.WriteLine("LinuxMode: GetDirectories search pattern: Sub*")
+            For Each item As String In CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "Sub*", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix)
+                System.Console.WriteLine("Dir:  " & item)
+            Next
+            System.Console.WriteLine()
+
+            Assert.AreEqual(1, CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "sub*", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #1w")
+            Assert.AreEqual(1, CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "sub*", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #1u")
+            Assert.AreEqual(1, CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "Sub*", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #2w")
+            Assert.AreEqual(0, CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "Sub*", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #2u")
+            Assert.AreEqual(0, CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "*.Asp", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #11")
+            Assert.AreEqual(0, CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "*.asp", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #12")
+            Assert.AreEqual(0, CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "*.aspx", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #13")
+            Assert.AreEqual(0, CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "*.Aspx", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #14")
+            Assert.AreEqual(0, CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata\subdir"), "", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #21")
+            Assert.AreEqual(0, CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata\subdir"), Nothing, CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #22")
+            Assert.AreEqual(0, CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata\subdir"), "*", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #23")
+            Assert.AreEqual(0, CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata\subdir"), "*.aspx", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #23")
+
+            Assert.AreEqual(1, CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), Nothing, System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #30w")
+            Assert.AreEqual(1, CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), Nothing, System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #30u")
+            'Assert.AreEqual(1, System.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "*.*", System.IO.SearchOption.AllDirectories).Length, "Test #31net")
+            Assert.AreEqual(0, CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "*.*", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #31w")
+            Assert.AreEqual(0, CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "*.*", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #31u")
+            Assert.AreEqual(1, System.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "*", System.IO.SearchOption.AllDirectories).Length, "Test #32net")
+            Assert.AreEqual(1, CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "*", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #32w")
+            Assert.AreEqual(1, CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "*", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #32u")
+            Assert.AreEqual(1, CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #33w")
+            Assert.AreEqual(1, CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #33u")
+            Assert.AreEqual(0, CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "*.Aspx", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #34w")
+            Assert.AreEqual(0, CompuMaster.IO.Directory.GetDirectories(GlobalTestSetup.PathToTestFiles("testdata"), "*.Aspx", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #34u")
         End Sub
 
     End Class
@@ -139,12 +257,19 @@ Namespace CompuMaster.Tests.IO
                 Assert.AreEqual(0, CompuMaster.IO.DirectoryInfo.GetFileInfos(GlobalTestSetup.PathToTestFiles("testdata"), "???.Aspx", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #5a")
                 Assert.AreEqual(1, CompuMaster.IO.DirectoryInfo.GetFileInfos(GlobalTestSetup.PathToTestFiles("testdata"), "???.aspx", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #5b")
             Else
-                Assert.AreEqual(1, CompuMaster.IO.DirectoryInfo.GetFileInfos(GlobalTestSetup.PathToTestFiles("testdata"), "*.Asp", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #1")
-                Assert.AreEqual(3, CompuMaster.IO.DirectoryInfo.GetFileInfos(GlobalTestSetup.PathToTestFiles("testdata"), "???.Aspx", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #2")
-                Assert.AreEqual(5, CompuMaster.IO.DirectoryInfo.GetFileInfos(GlobalTestSetup.PathToTestFiles("testdata"), "???.Aspx", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #3")
-                Assert.AreEqual(0, CompuMaster.IO.DirectoryInfo.GetFileInfos(GlobalTestSetup.PathToTestFiles("testdata"), "???.Aspx", System.IO.SearchOption.TopDirectoryOnly, CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #4")
-                Assert.AreEqual(1, CompuMaster.IO.DirectoryInfo.GetFileInfos(GlobalTestSetup.PathToTestFiles("testdata"), "???.Aspx", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #5")
+                Assert.AreEqual(1, CompuMaster.IO.DirectoryInfo.GetFileInfos(GlobalTestSetup.PathToTestFiles("testdata"), "*.Asp", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #11")
+                Assert.AreEqual(3, CompuMaster.IO.DirectoryInfo.GetFileInfos(GlobalTestSetup.PathToTestFiles("testdata"), "???.Aspx", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #12")
+                Assert.AreEqual(5, CompuMaster.IO.DirectoryInfo.GetFileInfos(GlobalTestSetup.PathToTestFiles("testdata"), "???.Aspx", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #13")
+                Assert.AreEqual(0, CompuMaster.IO.DirectoryInfo.GetFileInfos(GlobalTestSetup.PathToTestFiles("testdata"), "???.Aspx", System.IO.SearchOption.TopDirectoryOnly, CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #14")
+                Assert.AreEqual(1, CompuMaster.IO.DirectoryInfo.GetFileInfos(GlobalTestSetup.PathToTestFiles("testdata"), "???.Aspx", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #15")
             End If
+
+            Assert.AreEqual(1, CompuMaster.IO.DirectoryInfo.GetFileInfos(GlobalTestSetup.PathToTestFiles("testdata"), "xyz*", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #21w")
+            Assert.AreEqual(1, CompuMaster.IO.DirectoryInfo.GetFileInfos(GlobalTestSetup.PathToTestFiles("testdata"), "xyz*", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #21u")
+            Assert.AreEqual(1, CompuMaster.IO.DirectoryInfo.GetFileInfos(GlobalTestSetup.PathToTestFiles("testdata"), "readme", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #23w")
+            Assert.AreEqual(1, CompuMaster.IO.DirectoryInfo.GetFileInfos(GlobalTestSetup.PathToTestFiles("testdata"), "readme", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #23u")
+            Assert.AreEqual(1, CompuMaster.IO.DirectoryInfo.GetFileInfos(GlobalTestSetup.PathToTestFiles("testdata"), "ReadMe", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Windows).Length, "Test #25w")
+            Assert.AreEqual(0, CompuMaster.IO.DirectoryInfo.GetFileInfos(GlobalTestSetup.PathToTestFiles("testdata"), "ReadMe", System.IO.SearchOption.AllDirectories, CompuMaster.IO.FilterUtils.CaseSensitivity.Unix).Length, "Test #25u")
         End Sub
 
     End Class
@@ -174,6 +299,39 @@ Namespace CompuMaster.Tests.IO
             Assert.AreEqual(True, CompuMaster.IO.FilterUtils.IsFilterMatch("abc.asp", "abc.asp?", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows))
             Assert.AreEqual(True, CompuMaster.IO.FilterUtils.IsFilterMatch("abc.asp", "abc.asp*", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows))
             Assert.AreEqual(True, CompuMaster.IO.FilterUtils.IsFilterMatch("abc.aspx", "abc.asp*", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows))
+
+            Assert.AreEqual(True, CompuMaster.IO.FilterUtils.IsFilterMatch("abc.aspx", "abc.aspx", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix))
+            Assert.AreEqual(False, CompuMaster.IO.FilterUtils.IsFilterMatch("aBc.aspx", "abc.aspx", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix))
+            Assert.AreEqual(True, CompuMaster.IO.FilterUtils.IsFilterMatch("abc.aspx", "a?c.aspx", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix))
+            Assert.AreEqual(True, CompuMaster.IO.FilterUtils.IsFilterMatch("c.aspx", "??c.aspx", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix))
+            Assert.AreEqual(True, CompuMaster.IO.FilterUtils.IsFilterMatch("ac.aspx", "??c.aspx", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix))
+            Assert.AreEqual(True, CompuMaster.IO.FilterUtils.IsFilterMatch("abc.aspx", "??c.aspx", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix))
+            Assert.AreEqual(True, CompuMaster.IO.FilterUtils.IsFilterMatch("abc.aspx", "abc.asp?", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix))
+            Assert.AreEqual(True, CompuMaster.IO.FilterUtils.IsFilterMatch("abc.asp", "abc.asp?", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix))
+            Assert.AreEqual(True, CompuMaster.IO.FilterUtils.IsFilterMatch("abc.asp", "abc.asp*", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix))
+            Assert.AreEqual(True, CompuMaster.IO.FilterUtils.IsFilterMatch("abc.aspx", "abc.asp*", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix))
+
+            Assert.AreEqual(True, CompuMaster.IO.FilterUtils.IsFilterMatch("abc", "*", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows))
+            Assert.AreEqual(True, CompuMaster.IO.FilterUtils.IsFilterMatch("abc.", "*", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows))
+            Assert.AreEqual(True, CompuMaster.IO.FilterUtils.IsFilterMatch("abc.txt", "*", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows))
+            Assert.AreEqual(True, CompuMaster.IO.FilterUtils.IsFilterMatch(".abc", "*", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows))
+            Assert.AreEqual(True, CompuMaster.IO.FilterUtils.IsFilterMatch(".abc.txt", "*", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows))
+            Assert.AreEqual(True, CompuMaster.IO.FilterUtils.IsFilterMatch("abc", "*", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix))
+            Assert.AreEqual(True, CompuMaster.IO.FilterUtils.IsFilterMatch("abc.", "*", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix))
+            Assert.AreEqual(True, CompuMaster.IO.FilterUtils.IsFilterMatch("abc.txt", "*", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix))
+            Assert.AreEqual(True, CompuMaster.IO.FilterUtils.IsFilterMatch(".abc", "*", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix))
+            Assert.AreEqual(True, CompuMaster.IO.FilterUtils.IsFilterMatch(".abc.txt", "*", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix))
+
+            Assert.AreEqual(False, CompuMaster.IO.FilterUtils.IsFilterMatch("abc", "*.", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows))
+            Assert.AreEqual(True, CompuMaster.IO.FilterUtils.IsFilterMatch("abc.", "*.", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows))
+            Assert.AreEqual(False, CompuMaster.IO.FilterUtils.IsFilterMatch("abc.txt", "*.", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows))
+            Assert.AreEqual(False, CompuMaster.IO.FilterUtils.IsFilterMatch(".abc", "*.", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows))
+            Assert.AreEqual(False, CompuMaster.IO.FilterUtils.IsFilterMatch(".abc.txt", "*.", CompuMaster.IO.FilterUtils.CaseSensitivity.Windows))
+            Assert.AreEqual(False, CompuMaster.IO.FilterUtils.IsFilterMatch("abc", "*.", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix))
+            Assert.AreEqual(True, CompuMaster.IO.FilterUtils.IsFilterMatch("abc.", "*.", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix))
+            Assert.AreEqual(False, CompuMaster.IO.FilterUtils.IsFilterMatch("abc.txt", "*.", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix))
+            Assert.AreEqual(False, CompuMaster.IO.FilterUtils.IsFilterMatch(".abc", "*.", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix))
+            Assert.AreEqual(False, CompuMaster.IO.FilterUtils.IsFilterMatch(".abc.txt", "*.", CompuMaster.IO.FilterUtils.CaseSensitivity.Unix))
         End Sub
     End Class
 

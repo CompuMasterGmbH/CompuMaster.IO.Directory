@@ -19,13 +19,21 @@ Namespace CompuMaster.IO
         End Enum
 
         Public Shared Function ApplyFileFilter(ByVal paths As String(), ByVal fileSystemSearchPattern As String, ByVal compareOption As CaseSensitivity) As String()
+            Return ApplyFileFilter(paths, fileSystemSearchPattern, compareOption, Nothing)
+        End Function
+
+        Public Shared Function ApplyFileFilter(ByVal paths As String(), ByVal fileSystemSearchPattern As String, ByVal compareOption As CaseSensitivity, path As String) As String()
             If paths Is Nothing Then Throw New ArgumentNullException("paths")
             If fileSystemSearchPattern = Nothing Then Return paths
 
             Dim Result As New ArrayList(paths)
             Dim regEx As System.Text.RegularExpressions.Regex = CreateFileRegEx(fileSystemSearchPattern, compareOption)
             For MyCounter As Integer = Result.Count - 1 To 0 Step -1
-                If IsFilterMatch(regEx, (CType(Result(MyCounter), String))) = False Then
+                Dim CheckValue As String = CType(Result(MyCounter), String)
+                If path <> Nothing Then
+                    CheckValue = System.IO.Path.GetFileName(CheckValue)
+                End If
+                If IsFilterMatch(regEx, CheckValue) = False Then
                     Result.RemoveAt(MyCounter)
                 End If
             Next
