@@ -1,0 +1,1 @@
+mono ./testrunner/NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe ./CompuMaster.Test.IO.Directory/bin/CompuMaster.Test.IO.Directory.dll
