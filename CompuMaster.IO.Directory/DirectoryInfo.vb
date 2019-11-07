@@ -43,23 +43,43 @@ Namespace CompuMaster.IO
         End Function
 
         Public Shared Function GetFileInfos(ByVal directory As System.IO.DirectoryInfo, ByVal searchPattern As String, ByVal compareOption As FilterUtils.CaseSensitivity) As System.IO.FileInfo()
-            Return GetFileInfos(directory.GetFiles(searchPattern), searchPattern, compareOption)
+            If IsLinuxEnvironment() Then
+                Return GetFileInfos(directory.GetFiles("*"), searchPattern, compareOption)
+            Else
+                Return GetFileInfos(directory.GetFiles(searchPattern), searchPattern, compareOption)
+            End If
         End Function
 
         Public Shared Function GetFileInfos(ByVal directory As System.IO.DirectoryInfo, ByVal searchPattern As String, ByVal searchOptions As System.IO.SearchOption, ByVal compareOption As FilterUtils.CaseSensitivity) As System.IO.FileInfo()
-            Return GetFileInfos(directory.GetFiles(searchPattern, searchOptions), searchPattern, compareOption)
+            If IsLinuxEnvironment() Then
+                Return GetFileInfos(directory.GetFiles("*", searchOptions), searchPattern, compareOption)
+            Else
+                Return GetFileInfos(directory.GetFiles(searchPattern, searchOptions), searchPattern, compareOption)
+            End If
         End Function
 
         Public Shared Function GetDirectoryInfos(ByVal directory As System.IO.DirectoryInfo, ByVal searchPattern As String, ByVal compareOption As FilterUtils.CaseSensitivity) As System.IO.DirectoryInfo()
-            Return GetDirectoryInfos(directory.GetDirectories(searchPattern), searchPattern, compareOption)
+            If IsLinuxEnvironment() Then
+                Return GetDirectoryInfos(directory.GetDirectories("*"), searchPattern, compareOption)
+            Else
+                Return GetDirectoryInfos(directory.GetDirectories(searchPattern), searchPattern, compareOption)
+            End If
         End Function
 
         Public Shared Function GetDirectoryInfos(ByVal directory As System.IO.DirectoryInfo, ByVal searchPattern As String, ByVal searchOptions As System.IO.SearchOption, ByVal compareOption As FilterUtils.CaseSensitivity) As System.IO.DirectoryInfo()
-            Return GetDirectoryInfos(directory.GetDirectories(searchPattern, searchOptions), searchPattern, compareOption)
+            If IsLinuxEnvironment() Then
+                Return GetDirectoryInfos(directory.GetDirectories("*", searchOptions), searchPattern, compareOption)
+            Else
+                Return GetDirectoryInfos(directory.GetDirectories(searchPattern, searchOptions), searchPattern, compareOption)
+            End If
         End Function
 
         Public Shared Function GetFileSystemInfos(ByVal directory As System.IO.DirectoryInfo, ByVal searchPattern As String, ByVal compareOption As FilterUtils.CaseSensitivity) As System.IO.FileSystemInfo()
-            Return GetFileSystemInfos(directory.GetFileSystemInfos(searchPattern), searchPattern, compareOption)
+            If IsLinuxEnvironment() Then
+                Return GetFileSystemInfos(directory.GetFileSystemInfos("*"), searchPattern, compareOption)
+            Else
+                Return GetFileSystemInfos(directory.GetFileSystemInfos(searchPattern), searchPattern, compareOption)
+            End If
         End Function
 
         Public Shared Function GetFileInfos(ByVal path As String, ByVal searchPattern As String, ByVal compareOption As FilterUtils.CaseSensitivity) As System.IO.FileInfo()
@@ -80,6 +100,10 @@ Namespace CompuMaster.IO
 
         Public Shared Function GetFileSystemInfos(ByVal path As String, ByVal searchPattern As String, ByVal compareOption As FilterUtils.CaseSensitivity) As System.IO.FileSystemInfo()
             Return GetFileSystemInfos(New System.IO.DirectoryInfo(path), searchPattern, compareOption)
+        End Function
+
+        Private Shared Function IsLinuxEnvironment() As Boolean
+            Return System.Environment.OSVersion.Platform = PlatformID.MacOSX OrElse System.Environment.OSVersion.Platform = PlatformID.Unix
         End Function
 
     End Class
