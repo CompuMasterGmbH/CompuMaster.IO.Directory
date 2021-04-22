@@ -29,8 +29,12 @@ Namespace CompuMaster.Tests.IO
             Next
         End Sub
 
-        Friend Shared Function IsLinuxOrMacEnvironment() As Boolean
-            Return System.Environment.OSVersion.Platform = PlatformID.MacOSX OrElse System.Environment.OSVersion.Platform = PlatformID.Unix
+        Friend Shared Function IsLinuxEnvironment() As Boolean
+            Return System.Environment.OSVersion.Platform = PlatformID.Unix
+        End Function
+
+        Friend Shared Function IsMacEnvironment() As Boolean
+            Return System.Environment.OSVersion.Platform = PlatformID.MacOSX
         End Function
 
     End Class
@@ -63,10 +67,12 @@ Namespace CompuMaster.Tests.IO
             For Each item As String In System.IO.Directory.GetFiles(path, searchPattern)
                 System.Console.WriteLine("    File: " & item)
             Next
-            If TestSetup.IsLinuxOrMacEnvironment Then
-                Assert.AreEqual(0, NativeResultsCount, "Native results count (Linux/Mac Env)")
+            If TestSetup.IsLinuxEnvironment Then
+                'file systems are case-sensitive
+                Assert.AreEqual(0, NativeResultsCount, "Native results count (Linux Env -> case-sensitive file systems)")
             Else
-                Assert.AreEqual(1, NativeResultsCount, "Native results count (Win Env)")
+                'file systems are case-insensitive
+                Assert.AreEqual(1, NativeResultsCount, "Native results count (Win/Mac Env -> case-insensitive file systems)")
             End If
             System.Console.WriteLine()
             System.Console.WriteLine()
@@ -90,7 +96,7 @@ Namespace CompuMaster.Tests.IO
             searchPattern = "*.Asp"
             System.Console.WriteLine("WinMode: Results after applied filter")
             System.Console.WriteLine("SearchPattern=" & searchPattern)
-            If TestSetup.IsLinuxOrMacEnvironment Then
+            If TestSetup.IsLinuxEnvironment Then
                 For Each item As String In CompuMaster.IO.FilterUtils.ApplyFileFilter(System.IO.Directory.GetFiles(path, "*"), searchPattern, CompuMaster.IO.FilterUtils.CaseSensitivity.Windows)
                     System.Console.WriteLine("    File: " & item)
                 Next
