@@ -29,7 +29,7 @@ Namespace CompuMaster.Tests.IO
             Next
         End Sub
 
-        Friend Shared Function IsLinuxEnvironment() As Boolean
+        Friend Shared Function IsLinuxOrMacEnvironment() As Boolean
             Return System.Environment.OSVersion.Platform = PlatformID.MacOSX OrElse System.Environment.OSVersion.Platform = PlatformID.Unix
         End Function
 
@@ -63,10 +63,10 @@ Namespace CompuMaster.Tests.IO
             For Each item As String In System.IO.Directory.GetFiles(path, searchPattern)
                 System.Console.WriteLine("    File: " & item)
             Next
-            If TestSetup.IsLinuxEnvironment Then
-                Assert.AreEqual(0, NativeResultsCount, "Native results count (LinuxEnv)")
+            If TestSetup.IsLinuxOrMacEnvironment Then
+                Assert.AreEqual(0, NativeResultsCount, "Native results count (Linux/Mac Env)")
             Else
-                Assert.AreEqual(1, NativeResultsCount, "Native results count (WinEnv)")
+                Assert.AreEqual(1, NativeResultsCount, "Native results count (Win Env)")
             End If
             System.Console.WriteLine()
             System.Console.WriteLine()
@@ -90,7 +90,7 @@ Namespace CompuMaster.Tests.IO
             searchPattern = "*.Asp"
             System.Console.WriteLine("WinMode: Results after applied filter")
             System.Console.WriteLine("SearchPattern=" & searchPattern)
-            If TestSetup.IsLinuxEnvironment Then
+            If TestSetup.IsLinuxOrMacEnvironment Then
                 For Each item As String In CompuMaster.IO.FilterUtils.ApplyFileFilter(System.IO.Directory.GetFiles(path, "*"), searchPattern, CompuMaster.IO.FilterUtils.CaseSensitivity.Windows)
                     System.Console.WriteLine("    File: " & item)
                 Next
