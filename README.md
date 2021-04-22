@@ -3,7 +3,7 @@
 Provides missing features for filtering files by their full name (instead of default windows behaviour with compatibility for short file names with 8.3-limitations)
 
 [![Github Release](https://img.shields.io/github/release/CompuMasterGmbH/CompuMaster.IO.Directory.svg?maxAge=2592000&label=GitHub%20Release)](https://github.com/CompuMasterGmbH/CompuMaster.IO.Directory/releases) 
-[![NuGet CompuMaster.IO.Directory](https://img.shields.io/nuget/v/CompuMaster.IO.Directory.svg?label=NuGet%20CM.IO.Directory)](https://www.nuget.org/packages/CompuMaster.IO.Directory/) [![Travis](https://img.shields.io/travis/CompuMasterGmbH/CompuMaster.IO.Directory.svg?label=Build%20with%20Mono)](https://travis-ci.org/CompuMasterGmbH/CompuMaster.IO.Directory/)
+[![NuGet CompuMaster.IO.Directory](https://img.shields.io/nuget/v/CompuMaster.IO.Directory.svg?label=NuGet%20CM.IO.Directory)](https://www.nuget.org/packages/CompuMaster.IO.Directory/) 
 
 ## Some background on directory listings with Microsoft Windows
 By default, Microsoft Windows (so the .NET framework, too) find files which match to your search pattern with their full names as well as their short names.
