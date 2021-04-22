@@ -7,7 +7,7 @@ Namespace CompuMaster.IO
     ''' Provides missing features for System.IO.Directory/System.IO.DirectoryInfo 
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class DirectoryInfo
+    Public NotInheritable Class DirectoryInfo
 
         Public Shared Function GetFileInfos(ByVal fileInfos As System.IO.FileInfo(), ByVal searchPattern As String, ByVal compareOption As FilterUtils.CaseSensitivity) As System.IO.FileInfo()
             Dim Result As New ArrayList(fileInfos)

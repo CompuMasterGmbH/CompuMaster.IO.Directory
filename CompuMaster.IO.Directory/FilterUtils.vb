@@ -11,7 +11,7 @@ Namespace CompuMaster.IO
     ''' <para>These search filters the files again, so the result is that you'll receive only those results which are valid with their full name.</para>
     ''' <example>Given are the files abc.doc and abc.docx. Searching for *.doc with default windows/.NET behaviour will find both files because the file abc.docx is represented in 8.3-style with abc~1.doc. Using the methods in this class will reduce this result to the correct result with only abc.doc.</example>
     ''' </remarks>
-    Public Class FilterUtils
+    Public NotInheritable Class FilterUtils
 
         Public Enum CaseSensitivity
             Windows = 0
@@ -23,7 +23,7 @@ Namespace CompuMaster.IO
         End Function
 
         Public Shared Function ApplyFileFilter(ByVal paths As String(), ByVal fileSystemSearchPattern As String, ByVal compareOption As CaseSensitivity, path As String) As String()
-            If paths Is Nothing Then Throw New ArgumentNullException("paths")
+            If paths Is Nothing Then Throw New ArgumentNullException(NameOf(paths))
             If fileSystemSearchPattern = Nothing Then Return paths
 
             Dim Result As New ArrayList(paths)

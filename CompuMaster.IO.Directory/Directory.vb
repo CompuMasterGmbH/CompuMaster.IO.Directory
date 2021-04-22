@@ -7,7 +7,7 @@ Namespace CompuMaster.IO
     ''' Provides missing features for System.IO.Directory
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class Directory
+    Public NotInheritable Class Directory
         Public Shared Function GetFiles(ByVal path As String, ByVal searchPattern As String, ByVal compareOption As FilterUtils.CaseSensitivity) As String()
             If searchPattern = Nothing Then searchPattern = "*"
             If IsLinuxEnvironment() Then
