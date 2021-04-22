@@ -30,11 +30,15 @@ Namespace CompuMaster.Tests.IO
         End Sub
 
         Friend Shared Function IsLinuxEnvironment() As Boolean
-            Return System.Environment.OSVersion.Platform = PlatformID.Unix
+            If System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows) OrElse IsMacEnvironment() OrElse System.Environment.OSVersion.Platform = PlatformID.Win32NT Then
+                Return False
+            Else
+                Return System.Environment.OSVersion.Platform = PlatformID.Unix
+            End If
         End Function
 
         Friend Shared Function IsMacEnvironment() As Boolean
-            Return System.Environment.OSVersion.Platform = PlatformID.MacOSX
+            Return System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.OSX) OrElse System.Environment.OSVersion.Platform = PlatformID.MacOSX
         End Function
 
     End Class
