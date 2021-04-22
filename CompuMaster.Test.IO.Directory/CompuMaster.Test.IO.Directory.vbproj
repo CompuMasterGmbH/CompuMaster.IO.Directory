@@ -8,6 +8,40 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="testdata\abc.aspx" />
+    <None Remove="testdata\BCD.aspx" />
+    <None Remove="testdata\def.asp" />
+    <None Remove="testdata\efg.aspx" />
+    <None Remove="testdata\readme" />
+    <None Remove="testdata\subdir\pqr.Aspx" />
+    <None Remove="testdata\subdir\xyz.aspx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="testdata\abc.aspx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="testdata\BCD.aspx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="testdata\def.asp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="testdata\efg.aspx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="testdata\readme">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="testdata\subdir\pqr.Aspx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="testdata\subdir\xyz.aspx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
 	<PackageReference Include="JUnitTestLogger4GitHub" Version="1.1.1" />
 	<PackageReference Include="NUnit" Version="3.13.1" />
 	<PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
