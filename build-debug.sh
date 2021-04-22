@@ -1,1 +1,0 @@
-msbuild /p:Configuration=Debug /p:Platform="Any CPU" /p:PostBuildEvent="" CompuMaster.IO.Directory.sln

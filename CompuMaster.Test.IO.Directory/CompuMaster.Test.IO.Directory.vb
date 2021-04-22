@@ -30,7 +30,15 @@ Namespace CompuMaster.Tests.IO
         End Sub
 
         Friend Shared Function IsLinuxEnvironment() As Boolean
-            Return System.Environment.OSVersion.Platform = PlatformID.MacOSX OrElse System.Environment.OSVersion.Platform = PlatformID.Unix
+            If System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows) OrElse IsMacEnvironment() OrElse System.Environment.OSVersion.Platform = PlatformID.Win32NT Then
+                Return False
+            Else
+                Return System.Environment.OSVersion.Platform = PlatformID.Unix
+            End If
+        End Function
+
+        Friend Shared Function IsMacEnvironment() As Boolean
+            Return System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.OSX) OrElse System.Environment.OSVersion.Platform = PlatformID.MacOSX
         End Function
 
     End Class
@@ -64,9 +72,11 @@ Namespace CompuMaster.Tests.IO
                 System.Console.WriteLine("    File: " & item)
             Next
             If TestSetup.IsLinuxEnvironment Then
-                Assert.AreEqual(0, NativeResultsCount, "Native results count (LinuxEnv)")
+                'file systems are case-sensitive
+                Assert.AreEqual(0, NativeResultsCount, "Native results count (Linux Env -> case-sensitive file systems)")
             Else
-                Assert.AreEqual(1, NativeResultsCount, "Native results count (WinEnv)")
+                'file systems are case-insensitive
+                Assert.AreEqual(1, NativeResultsCount, "Native results count (Win/Mac Env -> case-insensitive file systems)")
             End If
             System.Console.WriteLine()
             System.Console.WriteLine()

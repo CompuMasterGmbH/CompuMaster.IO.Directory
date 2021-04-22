@@ -2,34 +2,28 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "CompuMaster.Test.IO.Directory", "CompuMaster.Test.IO.Directory\CompuMaster.Test.IO.Directory.vbproj", "{C050535C-CAE0-40E3-8C35-73C6C5702F4A}"
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "CompuMaster.Test.IO.Directory", "CompuMaster.Test.IO.Directory\CompuMaster.Test.IO.Directory.vbproj", "{C050535C-CAE0-40E3-8C35-73C6C5702F4A}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "CompuMaster.IO.Directory", "CompuMaster.IO.Directory\CompuMaster.IO.Directory.vbproj", "{3BDA1292-0D02-452E-9518-18496AB59231}"
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "CompuMaster.IO.Directory", "CompuMaster.IO.Directory\CompuMaster.IO.Directory.vbproj", "{59C6F37B-4487-49D0-9B64-C8B9E772272C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		CI_CD|Any CPU = CI_CD|Any CPU
 		Debug|Any CPU = Debug|Any CPU
-		NAnt|Any CPU = NAnt|Any CPU
 		Release|Any CPU = Release|Any CPU
-		TravisCI|Any CPU = TravisCI|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C050535C-CAE0-40E3-8C35-73C6C5702F4A}.CI_CD|Any CPU.ActiveCfg = Debug|Any CPU
+		{C050535C-CAE0-40E3-8C35-73C6C5702F4A}.CI_CD|Any CPU.Build.0 = Debug|Any CPU
 		{C050535C-CAE0-40E3-8C35-73C6C5702F4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C050535C-CAE0-40E3-8C35-73C6C5702F4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C050535C-CAE0-40E3-8C35-73C6C5702F4A}.NAnt|Any CPU.ActiveCfg = NAnt|Any CPU
-		{C050535C-CAE0-40E3-8C35-73C6C5702F4A}.NAnt|Any CPU.Build.0 = NAnt|Any CPU
 		{C050535C-CAE0-40E3-8C35-73C6C5702F4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C050535C-CAE0-40E3-8C35-73C6C5702F4A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C050535C-CAE0-40E3-8C35-73C6C5702F4A}.TravisCI|Any CPU.ActiveCfg = TravisCI|Any CPU
-		{C050535C-CAE0-40E3-8C35-73C6C5702F4A}.TravisCI|Any CPU.Build.0 = TravisCI|Any CPU
-		{3BDA1292-0D02-452E-9518-18496AB59231}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3BDA1292-0D02-452E-9518-18496AB59231}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3BDA1292-0D02-452E-9518-18496AB59231}.NAnt|Any CPU.ActiveCfg = NAnt|Any CPU
-		{3BDA1292-0D02-452E-9518-18496AB59231}.NAnt|Any CPU.Build.0 = NAnt|Any CPU
-		{3BDA1292-0D02-452E-9518-18496AB59231}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3BDA1292-0D02-452E-9518-18496AB59231}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3BDA1292-0D02-452E-9518-18496AB59231}.TravisCI|Any CPU.ActiveCfg = TravisCI|Any CPU
-		{3BDA1292-0D02-452E-9518-18496AB59231}.TravisCI|Any CPU.Build.0 = TravisCI|Any CPU
+		{59C6F37B-4487-49D0-9B64-C8B9E772272C}.CI_CD|Any CPU.ActiveCfg = CI_CD|Any CPU
+		{59C6F37B-4487-49D0-9B64-C8B9E772272C}.CI_CD|Any CPU.Build.0 = CI_CD|Any CPU
+		{59C6F37B-4487-49D0-9B64-C8B9E772272C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59C6F37B-4487-49D0-9B64-C8B9E772272C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59C6F37B-4487-49D0-9B64-C8B9E772272C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59C6F37B-4487-49D0-9B64-C8B9E772272C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
