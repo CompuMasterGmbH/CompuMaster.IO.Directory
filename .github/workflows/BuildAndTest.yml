@@ -27,7 +27,7 @@ env:
     BUILD_CONFIGURATION: CI_CD
 
     BUILD_OUTPUT: CompuMaster.IO.Directory/bin/Debug
-    BUILD_OUTPUT_TEST: CompuMaster.Test.IO.Directory/testdata
+    BUILD_OUTPUT_TEST: CompuMaster.Test.IO.Directory/bin/Debug
 
 jobs:
     test:
