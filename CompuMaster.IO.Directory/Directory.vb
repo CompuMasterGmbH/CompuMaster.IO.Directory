@@ -108,6 +108,19 @@ Namespace CompuMaster.IO
                 If list.Contains(values(MyCounter)) = False Then list.Add(values(MyCounter))
             Next
         End Sub
+
+        ''' <summary>
+        ''' If a directory path exists, return it else search for the next parent directory which exists
+        ''' </summary>
+        ''' <param name="path"></param>
+        ''' <returns></returns>
+        Public Shared Function FindExistingDirectoryOrParentDirectory(path As String) As String
+            Dim Result As String = path
+            Do While System.IO.Directory.Exists(Result) = False
+                Result = System.IO.Path.GetDirectoryName(Result)
+            Loop
+            Return Result
+        End Function
     End Class
 
 End Namespace

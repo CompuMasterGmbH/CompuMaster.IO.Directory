@@ -106,6 +106,10 @@ Namespace CompuMaster.IO
             Return System.Environment.OSVersion.Platform = PlatformID.MacOSX OrElse System.Environment.OSVersion.Platform = PlatformID.Unix
         End Function
 
+        Public Shared Function FindExistingDirectoryOrParentDirectoryInfo(path As String) As System.IO.DirectoryInfo
+            Return New System.IO.DirectoryInfo(CompuMaster.IO.Directory.FindExistingDirectoryOrParentDirectory(path))
+        End Function
+
     End Class
 
 End Namespace

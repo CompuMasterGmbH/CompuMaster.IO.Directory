@@ -45,6 +45,18 @@ Namespace CompuMaster.Tests.IO
 
     <TestFixture()> Public Class Directory
 
+        <Test> Sub FindExistingDirectoryOrParentDirectory()
+            Dim TempDir As String = System.Environment.GetFolderPath(Environment.SpecialFolder.System)
+            'Run pre-checks to ensure correct test results
+            If TempDir = Nothing Then Assert.Fail("SpecialFolder.System required with value")
+            If System.IO.Directory.Exists(TempDir) = False Then Assert.Fail("SpecialFolder.System must exist")
+            Assert.NotNull(TempDir)
+            Assert.IsNotEmpty(TempDir)
+            'Run tests
+            Assert.AreEqual(TempDir, CompuMaster.IO.Directory.FindExistingDirectoryOrParentDirectory(TempDir))
+            Assert.AreEqual(TempDir, CompuMaster.IO.Directory.FindExistingDirectoryOrParentDirectory(System.IO.Path.Combine(TempDir, "a", "b.cde")))
+        End Sub
+
         <Test> Sub GetFilesStepByStep()
             Dim searchPattern As String
             Dim NativeResultsCount As Integer
